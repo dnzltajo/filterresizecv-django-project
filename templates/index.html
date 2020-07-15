@@ -11,9 +11,10 @@
   </style>
 </head>
 <body>
-  <form>
+  <form method="POST"enctype="multipart/form-data"> 
     <h1>OpenCV Filtering</h1><br>
-
+    {% csrf_token %}
+    {{ form.as_p }}
     <h2>Choose a filtering method (preferably one)</h2>
     <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
     <div class="slidecontainer" id="slidecontainer" style="display: none;">
