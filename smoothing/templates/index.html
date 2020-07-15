@@ -14,7 +14,7 @@
   <form>
     <h1>OpenCV Filtering</h1><br>
 
-    <h2>Choose a filtering method preferably one</h2>
+    <h2>Choose a filtering method (preferably one)</h2>
     <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
     <div class="slidecontainer" id="slidecontainer" style="display: none;">
       <p>Kernel Size</p>
@@ -39,7 +39,7 @@
       <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
     </div>
     <br>
-    <p>Resize</p>
+    <p>Scale</p>
     <select onchange="scaleClick()" id="scale">
         <option>None</option>
         <option>2x</option>
@@ -52,7 +52,8 @@
       <input type="radio" name="interpolate"value="cubic">Cubic<br>
       <input type="radio" name="interpolate"value="lanczos">Lanczos<br>
     </div>
-  </form>
+    <br><br>
+    <input type="submit" value="Okay">
   <script>
     function averagingClick(){
       var checkBox = document.getElementById("averaging");
