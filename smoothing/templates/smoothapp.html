@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenCV Smoothing App</title>
+  <style>
+  .slidecontainer, .slidecontainer2,.slidecontainer3,.slidecontainer4{
+    width: 100%;
+  }
+  </style>
+</head>
+<body>
+  <form>
+    <h1>OpenCV Filtering</h1><br>
+
+    <h2>Choose a filtering method preferably one</h2>
+    <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
+    <div class="slidecontainer" id="slidecontainer" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
+    </div>    
+
+    <input type="checkbox" name="gaussian" id="gaussian" onclick="gaussianClick()">Gaussian Filtering<br>
+    <div class="slidecontainer2" id="slidecontainer2" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
+    </div>    
+
+    <input type="checkbox"name="median" id="median" onclick="medianClick()">Median Filtering<br>
+    <div class="slidecontainer3" id="slidecontainer3" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
+    </div>    
+
+    <input type="checkbox"name="bilateral" id="bilateral" onclick="bilateralClick()">Bilateral Filtering<br>
+    <div class="slidecontainer4" id="slidecontainer4" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
+    </div>
+    <br>
+    <p>Resize</p>
+    <select onchange="scaleClick()" id="scale">
+        <option>None</option>
+        <option>2x</option>
+    </select>
+    <div id="interpolate" style="display: none;">
+      <p>Select Interpolation</p>
+      <input type="radio" name="interpolate" value="nearest">Nearest Neighbor<br>
+      <input type="radio" name="interpolate" value="linear">Linear<br>
+      <input type="radio" name="interpolate"value="area">Area<br>
+      <input type="radio" name="interpolate"value="cubic">Cubic<br>
+      <input type="radio" name="interpolate"value="lanczos">Lanczos<br>
+    </div>
+  </form>
+  <script>
+    function averagingClick(){
+      var checkBox = document.getElementById("averaging");
+      var text = document.getElementById("slidecontainer");
+      if (checkBox.checked == true){
+        text.style.display = "block";
+      } 
+      else {
+        text.style.display = "none";
+      }
+    }
+    function gaussianClick(){
+      var checkBox = document.getElementById("gaussian");
+      var text = document.getElementById("slidecontainer2");
+      if (checkBox.checked == true){
+        text.style.display = "block";
+      } 
+      else {
+        text.style.display = "none";
+      }
+    }
+    function medianClick(){
+      var checkBox = document.getElementById("median");
+      var text = document.getElementById("slidecontainer3");
+      if (checkBox.checked == true){
+        text.style.display = "block";
+      } 
+      else {
+        text.style.display = "none";
+      }
+    }
+    function bilateralClick(){
+      var checkBox = document.getElementById("bilateral");
+      var text = document.getElementById("slidecontainer4");
+      if (checkBox.checked == true){
+        text.style.display = "block";
+      } 
+      else {
+        text.style.display = "none";
+      }
+    }
+    function scaleClick(){
+      var selection = document.getElementById("scale").value;
+      var text = document.getElementById("interpolate");
+      if (selection == "2x"){
+        text.style.display = "block";
+      } 
+      else {
+        text.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
