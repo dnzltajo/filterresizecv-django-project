@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import Home, loading
+from .views import Home
 
 urlpatterns = [
     path('', Home.as_view(), name='home'),
-    path('Output', loading, name='loading'),
+    path('Output', Home.process, name='process'),
 ]

@@ -11,10 +11,10 @@
   </style>
 </head>
 <body>
-  <form method="POST"enctype="multipart/form-data"> 
-    <h1>OpenCV Filtering</h1><br>
+  <form method="POST" enctype="multipart/form-data" action="{% url 'process' %}"> 
+    <h1>OpenCV Filtering App</h1><br>
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form }}
     <h2>Choose a filtering method (preferably one)</h2>
     <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
     <div class="slidecontainer" id="slidecontainer" style="display: none;">
@@ -41,9 +41,9 @@
     </div>
     <br>
     <p>Scale</p>
-    <select onchange="scaleClick()" id="scale">
-        <option>None</option>
-        <option>2x</option>
+    <select id="scale" name="scale" onchange="scaleClick()">
+        <option value="0">None</option>
+        <option value="2">2x</option>
     </select>
     <div id="interpolate" style="display: none;">
       <p>Select Interpolation</p>
@@ -55,6 +55,7 @@
     </div>
     <br><br>
     <input type="submit" value="Okay">
+  </form>
   <script>
     function averagingClick(){
       var checkBox = document.getElementById("averaging");
