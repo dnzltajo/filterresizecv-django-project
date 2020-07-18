@@ -58,7 +58,7 @@ class Home(CreateView):
     else:
       output = cv2.resize(img, None,fx=length, fy=length)     
     cv2.imwrite(inp.img.url, output)
-    if len(Picture.objects.all()) == 1:
+    if len(Picture.objects.all()) == 0 or len(Picture.objects.all()) == 1:
       return render(request,'process.html', {'pic':input})
     else:
       not_ideal = Picture.objects.all()[1:].values_list("id", flat=True)

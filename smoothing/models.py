@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 import os
 from uuid import uuid4
-from django.db.models.signals import pre_delete
+from django.db.models.signals import post_delete
 from django.dispatch.dispatcher import receiver
 
 def path_rename(instance, filename):
@@ -24,8 +24,7 @@ class Picture(models.Model):
     def __str__(self):
         return self.img.url
 
-
-@receiver(pre_delete, sender=Picture)
+@receiver(post_delete, sender=Picture)
 def delete_image(sender, instance, **kwargs):
     # Pass false so FileField doesn't save the model.
     if instance.img:
