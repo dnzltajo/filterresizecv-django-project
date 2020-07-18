@@ -13,6 +13,7 @@ class Home(CreateView):
   template_name = 'index.html'
   success_url = reverse_lazy('process')  
 
+  #Save form
   def process(request):
     if request.method == 'POST':
       form = PostForm(request.POST, request.FILES)
@@ -24,16 +25,38 @@ class Home(CreateView):
     inp = Picture.objects.last()
     img = cv2.imread(inp.img.url)
     if request.POST.get('averaging'):
-      print("WORKING")
+      print("averaging")
       img=cv2.blur(img,(5,5))
     else:
-      print("DIDNT WORK")
+      print("no averaging")
     if request.POST.get('gaussian'):
-      print("WORKING")
+      print("gaussian")
       img=cv2.GaussianBlur(img,(7,7),0)
     else:
-      print("DIDNT WORK")
-    output = cv2.resize(img, None, fx=2.0, fy=2.0)
+      print("no gaussian")
+    if request.POST.get('median'):
+      print("median")
+      img=cv2.medianBlur(img, 5)
+    else:
+      print("no median")
+    if request.POST.get('bilateral'):
+      print("bilateral")
+      img=cv2.bilateralFilter(img,9,75,75)
+    else:
+      print("no bilateral")            
+    length = float(request.POST.get('scale'))
+    if request.POST.get('interpolate') == 'nearest':
+      output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_NEAREST)
+    elif request.POST.get('interpolate') == 'linear':
+      output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_LINEAR)   
+    elif request.POST.get('interpolate') == 'area':      
+      output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_AREA)   
+    elif request.POST.get('interpolate') == 'cubic':      
+      output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_CUBIC)     
+    elif request.POST.get('interpolate') == 'lanczos':      
+      output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_LANCZOS4) 
+    else:
+      output = cv2.resize(img, None,fx=length, fy=length)     
     cv2.imwrite(inp.img.url, output)
     if len(Picture.objects.all()) == 1:
       return render(request,'process.html', {'pic':input})

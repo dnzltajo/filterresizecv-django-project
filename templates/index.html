@@ -42,8 +42,9 @@
     <br>
     <p>Scale</p>
     <select id="scale" name="scale" onchange="scaleClick()">
-        <option value="0">None</option>
+        <option value="1" selected="selected">None</option>
         <option value="2">2x</option>
+        <option value="3">3x</option>
     </select>
     <div id="interpolate" style="display: none;">
       <p>Select Interpolation</p>
@@ -100,7 +101,7 @@
     function scaleClick(){
       var selection = document.getElementById("scale").value;
       var text = document.getElementById("interpolate");
-      if (selection == "2x"){
+      if (selection == "2" || selection =="3"){
         text.style.display = "block";
       } 
       else {
