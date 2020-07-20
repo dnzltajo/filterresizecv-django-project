@@ -52,6 +52,7 @@ class Home(CreateView):
       img=cv2.bilateralFilter(img,kernel,75,75)
     else:
       print("no bilateral")            
+    #Check for scaling
     length = float(request.POST.get('scale'))
     if request.POST.get('interpolate') == 'nearest':
       output = cv2.resize(img, None,fx=length, fy=length,interpolation = cv2.INTER_NEAREST)
