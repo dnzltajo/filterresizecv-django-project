@@ -3,60 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OpenCV Smoothing App</title>
+  <title>OpenCV F&R</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <style>
-  .slidecontainer, .slidecontainer2,.slidecontainer3,.slidecontainer4{
-    width: 100%;
-  }
+    .jumbotron{  
+      padding-top: 20px;
+      padding-bottom: 15px;
+    }
+    @media (max-width: 480px){body{margin-bottom: 50%;}}
+    @media (max-width: 640px){body{margin-bottom: 50%;}}
+    @media (max-width: 991px){body{margin-bottom: 50%;}}
   </style>
 </head>
-<body>
+<body style="background-color: #ddf3f5;">
+  <div class="justify content-center text-left text-justify jumbotron text-dark" style="margin-left: 4%; margin-right: 4%; margin-bottom: 15px; margin-top: 20px; background-color: #fcfafa;">
+  <h1 class="text-center">OpenCV (Filter & Resize)</h1><br><br>
   <form method="POST" enctype="multipart/form-data" action="{% url 'process' %}"> 
-    <h1>OpenCV Filtering App</h1><br>
+    <div class="form-group">
     {% csrf_token %}
     {{ form }}
-    <h2>Choose a filtering method (preferably one)</h2>
-    <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
-    <div class="slidecontainer" id="slidecontainer" style="display: none;">
-      <p>Kernel Size</p>
-      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
-    </div>    
-
-    <input type="checkbox" name="gaussian" id="gaussian" onclick="gaussianClick()">Gaussian Filtering<br>
-    <div class="slidecontainer2" id="slidecontainer2" style="display: none;">
-      <p>Kernel Size</p>
-      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
-    </div>    
-
-    <input type="checkbox"name="median" id="median" onclick="medianClick()">Median Filtering<br>
-    <div class="slidecontainer3" id="slidecontainer3" style="display: none;">
-      <p>Kernel Size</p>
-      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
-    </div>    
-
-    <input type="checkbox"name="bilateral" id="bilateral" onclick="bilateralClick()">Bilateral Filtering<br>
-    <div class="slidecontainer4" id="slidecontainer4" style="display: none;">
-      <p>Kernel Size</p>
-      <input type="range" min="2" max="100" value="3" class="slider" id="myrange" >
     </div>
-    <br>
-    <p>Scale</p>
-    <select id="scale" name="scale" onchange="scaleClick()">
+    <div class="form-group">
+      <h4 class="">Filtering method to use:</h4>
+      <input type="checkbox" name="averaging" id="averaging" onclick="averagingClick()">Averaging<br>  
+      <div class="slidecontainer" id="slidecontainer" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="1" max="100" value="1" oninput="outputId.value = myrangeId.value" class="slider" id="myrangeId" name="myrangeId">
+      <output name="outputId" id="outputId">1</output>
+      </div>    
+
+      <input type="checkbox" name="gaussian" id="gaussian" onclick="gaussianClick()">Gaussian Filtering<br>
+      <div class="slidecontainer2" id="slidecontainer2" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="1" max="99" value="1" step="2" class="slider" id="myrangeId2" name="myrangeId2" oninput="outputId2.value = myrangeId2.value" >
+      <output name="outputId2" id="outputId2">1</output>
+      </div>    
+
+      <input type="checkbox"name="median" id="median" onclick="medianClick()">Median Filtering<br>
+      <div class="slidecontainer3" id="slidecontainer3" style="display: none;">
+      <p>Kernel Size</p>
+      <input type="range" min="3" max="99" value="3" step="2" class="slider" id="myrangeId3" name="myrangeId3" 
+      oninput="outputId3.value = myrangeId3.value">
+      <output name="outputId3" id="outputId3">3</output>
+      </div>    
+
+      <input type="checkbox"name="bilateral" id="bilateral" onclick="bilateralClick()">Bilateral Filtering<br>
+      <div class="slidecontainer4" id="slidecontainer4" style="display: none;">
+      <p>Filter Size</p>
+      <input type="range" min="1" max="100" value="5" class="slider" id="myrangeId4" name="myrangeId4" oninput="outputId4.value = myrangeId4.value">
+      <output name="outputId4" id="outputId4">5</output>
+      </div>
+    </div>
+
+    <div class="form-group">
+    <div class="row justify content-center text-left">
+    <div class="col-lg-4 col-sm-12 text-justify">
+    <h4>Scale:</h4>
+    <select class="form-control" id="scale" name="scale" onchange="scaleClick()">
         <option value="1" selected="selected">None</option>
         <option value="2">2x</option>
         <option value="3">3x</option>
     </select>
-    <div id="interpolate" style="display: none;">
-      <p>Select Interpolation</p>
+    <br><input class="btn btn-primary" type="submit" value="Process">    
+    </div><br>
+    <div class="col-lg-8 col-sm-12 text-justify">
+    <div id="interpolate" style="display: none; margin-top: 10px; padding-bottom: 0px; margin-bottom: 0px;">
+      <h4>Select Interpolation</h4>
       <input type="radio" name="interpolate" value="nearest">Nearest Neighbor<br>
       <input type="radio" name="interpolate" value="linear" checked="">Linear<br>
       <input type="radio" name="interpolate"value="area">Area<br>
       <input type="radio" name="interpolate"value="cubic">Cubic<br>
       <input type="radio" name="interpolate"value="lanczos">Lanczos<br>
     </div>
-    <br><br>
-    <input type="submit" value="Okay">
+    </div>
+    </div>
+    <br>
+    </div>
   </form>
+  </div>
   <script>
     function averagingClick(){
       var checkBox = document.getElementById("averaging");
@@ -109,5 +133,8 @@
       }
     }
   </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 </body>
 </html>

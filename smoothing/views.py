@@ -26,22 +26,30 @@ class Home(CreateView):
     img = cv2.imread(inp.img.url)
     if request.POST.get('averaging'):
       print("averaging")
-      img=cv2.blur(img,(5,5))
+      kernel = int(request.POST.get('myrangeId',""))
+      print(kernel)
+      img=cv2.blur(img,(kernel,kernel))
     else:
       print("no averaging")
     if request.POST.get('gaussian'):
       print("gaussian")
-      img=cv2.GaussianBlur(img,(7,7),0)
+      kernel = int(request.POST.get('myrangeId2',""))      
+      print(kernel)
+      img=cv2.GaussianBlur(img,(kernel,kernel),0)
     else:
       print("no gaussian")
     if request.POST.get('median'):
       print("median")
-      img=cv2.medianBlur(img, 5)
+      kernel = int(request.POST.get('myrangeId3',""))      
+      print(kernel)      
+      img=cv2.medianBlur(img, kernel)
     else:
       print("no median")
     if request.POST.get('bilateral'):
       print("bilateral")
-      img=cv2.bilateralFilter(img,9,75,75)
+      kernel = int(request.POST.get('myrangeId4',""))      
+      print(kernel)          
+      img=cv2.bilateralFilter(img,kernel,75,75)
     else:
       print("no bilateral")            
     length = float(request.POST.get('scale'))
